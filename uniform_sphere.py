@@ -2,6 +2,8 @@
 import grcwa
 import numpy as np
 import time
+import matplotlib.pyplot as plt
+
 def uniformsphere(nG,L1,L2,theta,Nx,Ny,Np,epbkg,diameter):
     nG = nG
     # lattice constants
@@ -44,7 +46,7 @@ def uniformsphere(nG,L1,L2,theta,Nx,Ny,Np,epbkg,diameter):
     """won't be repeated if there are an odd number of layers"""
     # This will check if the number of layers is odd and make sure the middle layer isn't repeated
     radius_limit = 0                                                    # The radius_limit will initially be set to zero
-    if int(Np%2) == 1:                                                  # Modulo divide and if we have a remainder of 1, we have an odd number of layers
+    if int(Np%2) == 1:                                                  # Modular divide and if we have a remainder of 1, we have an odd number of layers
         radius_limit = radius_top[int((Np+1)/2)-1]                      # Our radius limit won't repeat the middle layer when it's odd
         index = len(radius_top)-2                                       # Index starts one before the final value for the bottom index
         reverseindex = 0
@@ -100,6 +102,10 @@ def uniformsphere(nG,L1,L2,theta,Nx,Ny,Np,epbkg,diameter):
         sphere = (x-.5)**2 + (y-.5)**2 < delta_radius**2
         epname[sphere] = epbkg
         epgrid = np.append(epgrid.flatten(),epname.flatten())
+        '''
+        plt.contourf(x,y,sphere,cmap='jet')
+        plt.show()
+        '''
 
     # We combine all of the epsilon values
     obj.GridLayer_geteps(epgrid)
